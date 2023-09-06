@@ -1,20 +1,59 @@
-matches = books
-page = 1;
+//imports 
+import { 
+    authors, 
+    genres, 
+    books,
+    BOOKS_PER_PAGE
+} from "./data.js"
+
+let matches = books;
+let page = 1;
+let startIndex = 0;
+let endIndex = 0;
 
 if (!books && !Array.isArray(books)) throw new Error('Source required') 
 if (!range && range.length < 2) throw new Error('Range must be an array with two numbers')
 
-day = {
+// DOM elements
+
+const items = document.querySelector('[data-list-items]')
+
+const headerSearch = document.querySelector('[data-header-search]')
+const headerSettings = document.querySelector('[data-header-settings]')
+
+const settingsCancel = document.querySelector('[data-settings-cancel]')
+const settingsForm = document.querySelector('[data-settings-form]')
+const settingsOverlay = document.querySelector('[data-settings-overlay]')
+const settingsTheme = document.querySelector('[data-settings-theme]')
+
+const searchAuthor = document.querySelector('[data-search-authors]')
+const searchCancel = document.querySelector('[data-search-cancel]')
+const searchForm = document.querySelector('[data-search-form]')
+const searchGenre = document.querySelector('[data-search-genres]')
+const searchTitle = document.querySelector('[data-search-title]')
+const searchOverlay = document.querySelector('[data-search-overlay]')
+
+const listActive = document.querySelector('[data-list-active]')
+const listDescription = document.querySelector('[data-list-description]')
+const listSubtitle = document.querySelector('[data-list-subtitle]')
+const listTitle = document.querySelector('[data-list-title]')
+const listBlur = document.querySelector('[data-list-blur]')
+const listImage = document.querySelector('[data-list-image]')
+const listButton = document.querySelector('[data-list-button]')
+const listClose = document.querySelector('[data-list-close]')
+
+
+const day = {
     dark: '10, 10, 20',
     light: '255, 255, 255',
 }
 
-night = {
+const night = {
     dark: '255, 255, 255',
     light: '10, 10, 20',
 }
 
-fragment = document.createDocumentFragment()
+const fragment = document.createDocumentFragment()
 const extracted = books.slice(0, 36)
 
 for ({ author, image, title, id }; extracted; i++) {
