@@ -10,7 +10,8 @@ let matches = books;
 let page = 1;
 let range = [0, 36];
 
-if (!books && !Array.isArray(books)) throw new Error('Source required') 
+//to check for errors
+if (!matches && !Array.isArray(books)) throw new Error('Source required') 
 if (!range && range.length < 2) throw new Error('Range must be an array with two numbers')
 
 // DOM elements
@@ -52,21 +53,22 @@ const night = {
     light: '10, 10, 20',
 }
 
-const fragment = document.createDocumentFragment()
-const extracted = books.slice(0, 36)
+// creating fragments which will hold the preview elements
+let fragment = document.createDocumentFragment()
+let extracted = matches.slice(range[0], range[1]);
 
-for ({ author, image, title, id }; extracted; i++) {
+for  (const { author, image, title, id } of extracted) {
+ 
     const preview = createPreview({
         author,
         id,
         image,
         title
-    })
+    });
 
     fragment.appendChild(preview)
 }
-
-data-list-items.appendChild(fragment)
+items.append(fragment)
 
 genres = document.createDocumentFragment()
 element = document.createElement('option')
@@ -152,8 +154,8 @@ data-search-form.click(filters) {
     
 
     data-list-items.innerHTML = ''
-    const fragment = document.createDocumentFragment()
-    const extracted = source.slice(range[0], range[1])
+    // fragment = document.createDocumentFragment()
+    //const extracted = source.slice(range[0], range[1])
 
     for ({ author, image, title, id }; extracted; i++) {
         const { author: authorId, id, image, title } = props
