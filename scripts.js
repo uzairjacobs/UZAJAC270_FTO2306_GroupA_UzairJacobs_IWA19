@@ -8,8 +8,7 @@ import {
 
 let matches = books;
 let page = 1;
-let startIndex = 0;
-let endIndex = 0;
+let range = [0, 36];
 
 if (!books && !Array.isArray(books)) throw new Error('Source required') 
 if (!range && range.length < 2) throw new Error('Range must be an array with two numbers')
