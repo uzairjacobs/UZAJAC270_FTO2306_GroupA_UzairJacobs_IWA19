@@ -6,13 +6,20 @@ import {
     BOOKS_PER_PAGE
 } from "./data.js"
 
+//global scope variables
 let matches = books;
 let page = 1;
 let range = [0, 36];
 
-//to check for errors
-if (!matches && !Array.isArray(books)) throw new Error('Source required') 
-if (!range && range.length < 2) throw new Error('Range must be an array with two numbers')
+const day = {
+    dark: '10, 10, 20',
+    light: '255, 255, 255',
+}
+
+const night = {
+    dark: '255, 255, 255',
+    light: '10, 10, 20',
+}
 
 // DOM elements
 
@@ -41,21 +48,33 @@ const listBlur = document.querySelector('[data-list-blur]')
 const listImage = document.querySelector('[data-list-image]')
 const listButton = document.querySelector('[data-list-button]')
 const listClose = document.querySelector('[data-list-close]')
+const listMessage = document.querySelector('[data-list-message]')
 
+//to check for errors
+if (!matches && !Array.isArray(books)) throw new Error('Source required') 
+if (!range && range.length < 2) throw new Error('Range must be an array with two numbers')
 
-const day = {
-    dark: '10, 10, 20',
-    light: '255, 255, 255',
-}
+const createPreview = ({ author, id, image, title}) => {
+    const preview = document.createElement('button');
+    preview.classList = 'preview'; //styling button
+    preview.setAttribute('data-preview', id); 
 
-const night = {
-    dark: '255, 255, 255',
-    light: '10, 10, 20',
-}
+    preview.innerHTML = /* html */ `
+    <img class = "preview__image" src="${image}" alt="${title}">
+    <div class="preview__content">
+    <h2 class="preview__title">${title}</h2>
+    <h3 class="preview__author">${authors[author]}</h3>
+    </div>
+    `;
+
+    return preview
+};
+
 
 // creating fragments which will hold the preview elements
 let fragment = document.createDocumentFragment()
 let extracted = matches.slice(range[0], range[1]);
+
 
 for  (const { author, image, title, id } of extracted) {
  
@@ -70,42 +89,59 @@ for  (const { author, image, title, id } of extracted) {
 }
 items.append(fragment)
 
-genres = document.createDocumentFragment()
-element = document.createElement('option')
-element.value = 'any'
-element = 'All Genres'
-genres.appendChild(element)
 
-for ([id, name]; Object.entries(genres); i++) {
-    document.createElement('option')
-    element.value = value
-    element.innerText = text
-    genres.appendChild(element)
+
+
+
+//need to create fragment to hold genre option elements
+const genresFragment = document.createDocumentFragment()
+let element = document.createElement('option')
+element.value = 'any'
+element.innerText = 'All Genres'
+genresFragment.appendChild(element)
+
+
+for (const [id, name] of Object.entries(genres)) {
+    let elementGenre = document.createElement('option')
+    element.value = id
+    element.innerText = name
+    genresFragment.appendChild(elementGenre)
 }
 
-data-search-genres.appendChild(genres)
+searchGenre.appendChild(genresFragment)
 
-authors = document.createDocumentFragment()
-element = document.createElement('option')
-element.value = 'any'
-element.innerText = 'All Authors'
-authors.appendChild(element)
 
-for ([id, name];Object.entries(authors); id++) {
-    document.createElement('option')
-    element.value = value
-    element = text
-    authors.appendChild(element)
+
+// need to create a fragment to hold authors option elements
+const authorsFragment = document.createDocumentFragment()
+let elementAuthor = document.createElement('option')
+elementAuthor.value = 'any'
+elementAuthor.innerText = 'All Authors'
+authorsFragment.appendChild(elementAuthor)
+
+for (const [id, name]of Object.entries(authors)) {
+   let elementAuthor = document.createElement('option')
+    elementAuthor.value = id
+    elementAuthor.innerText = name
+    authorsFragment.appendChild(elementAuthor)
 }
 
-data-search-authors.appendChild(authors)
+searchAuthor.appendChild(authorsFragment)
 
+
+
+//code to set the them to day or night (probably)
 data-settings-theme.value === window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'day'
 v = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches? 'night' | 'day'
 
 documentElement.style.setProperty('--color-dark', css[v].dark);
 documentElement.style.setProperty('--color-light', css[v].light);
-data-list-button = "Show more (books.length - BOOKS_PER_PAGE)"
+
+
+
+
+// code to handle show more button
+listButton = "Show more (books.length - BOOKS_PER_PAGE)"
 
 data-list-button.disabled = !(matches.length - [page * BOOKS_PER_PAGE] > 0)
 
@@ -223,3 +259,4 @@ data-list-items.click() {
     data-list-subtitle === '${authors[active.author]} (${Date(active.published).year})'
     data-list-description === active.description
 }
+
