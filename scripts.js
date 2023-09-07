@@ -22,7 +22,6 @@ const night = {
 }
 
 // DOM elements
-
 const items = document.querySelector('[data-list-items]')
 
 const headerSearch = document.querySelector('[data-header-search]')
@@ -51,9 +50,10 @@ const listClose = document.querySelector('[data-list-close]')
 const listMessage = document.querySelector('[data-list-message]')
 
 //to check for errors
-if (!matches && !Array.isArray(books)) throw new Error('Source required') 
+if (!matches && !Array.isArray(matches)) throw new Error('Source required') 
 if (!range && range.length < 2) throw new Error('Range must be an array with two numbers')
 
+//function to create preview "button"
 const createPreview = ({ author, id, image, title}) => {
     const preview = document.createElement('button');
     preview.classList = 'preview'; //styling button
@@ -63,7 +63,7 @@ const createPreview = ({ author, id, image, title}) => {
     <img class = "preview__image" src="${image}" alt="${title}">
     <div class="preview__content">
     <h2 class="preview__title">${title}</h2>
-    <h3 class="preview__author">${authors[author]}</h3>
+    <h3 class="preview__author">${authors[author]}</h3> 
     </div>
     `;
 
@@ -76,7 +76,7 @@ let fragment = document.createDocumentFragment()
 let extracted = matches.slice(range[0], range[1]);
 
 
-for  (const { author, image, title, id } of extracted) {
+for  (const { author, image, title, id } of extracted) { //for...of loop to iterate through an object - for each iteration, it destructures the object
  
     const preview = createPreview({
         author,
@@ -85,9 +85,9 @@ for  (const { author, image, title, id } of extracted) {
         title
     });
 
-    fragment.appendChild(preview)
+    fragment.appendChild(preview) //adds each preview element to the document fragment.
 }
-items.append(fragment)
+items.append(fragment) //fragment with all the preview elements is appended to <items> in the html
 
 
 
