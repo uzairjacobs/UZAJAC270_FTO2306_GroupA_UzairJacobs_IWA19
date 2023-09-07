@@ -56,7 +56,7 @@ if (!range && range.length < 2) throw new Error('Range must be an array with two
 //function to create preview "button"
 const createPreview = ({ author, id, image, title}) => {
     const preview = document.createElement('button');
-    preview.classList = 'preview'; //styling button
+    preview.classList = 'preview'; // styling button
     preview.setAttribute('data-preview', id); 
 
     preview.innerHTML = /* html */ `
@@ -94,39 +94,41 @@ items.append(fragment) //fragment with all the preview elements is appended to <
 
 
 //need to create fragment to hold genre option elements
+// a drop down menu 
 const genresFragment = document.createDocumentFragment()
-let element = document.createElement('option')
-element.value = 'any'
-element.innerText = 'All Genres'
-genresFragment.appendChild(element)
+let elementGenre = document.createElement('option') //creating html option element
+elementGenre.value = 'any' 
+elementGenre.innerText = 'All Genres'
+genresFragment.appendChild(elementGenre) //appends the elementGenre (representing the "All Genres" option) to the genresFragment.
 
 
-for (const [id, name] of Object.entries(genres)) {
-    let elementGenre = document.createElement('option')
-    element.value = id
+for (const [id, name] of Object.entries(genres)) { // for each entry, the loop creates a new <option> element to represent a genre.
+    let elementGenre = document.createElement('option') // variable is scoped to the loop and won't conflict with the elementGenre variable defined outside the loop
+    element.value = id 
     element.innerText = name
-    genresFragment.appendChild(elementGenre)
+    genresFragment.appendChild(elementGenre) //appends the elementGenre (representing a genre) to the genresFragment
 }
 
-searchGenre.appendChild(genresFragment)
+searchGenre.appendChild(genresFragment) //appends the entire genresFragment (containing both "All Genres" and genre options) to an HTML element with the id searchGenre
 
 
 
 // need to create a fragment to hold authors option elements
+// a drop down menu
 const authorsFragment = document.createDocumentFragment()
 let elementAuthor = document.createElement('option')
 elementAuthor.value = 'any'
-elementAuthor.innerText = 'All Authors'
-authorsFragment.appendChild(elementAuthor)
+elementAuthor.innerText = 'All Authors' // all authors option
+authorsFragment.appendChild(elementAuthor) //attaches the "All Authors" option to the author fragment
 
-for (const [id, name]of Object.entries(authors)) {
-   let elementAuthor = document.createElement('option')
+for (const [id, name]of Object.entries(authors)) { // for each entry, the loop creates a new <option> element to represent an author
+   let elementAuthor = document.createElement('option') // variable is scoped to the loop
     elementAuthor.value = id
     elementAuthor.innerText = name
-    authorsFragment.appendChild(elementAuthor)
+    authorsFragment.appendChild(elementAuthor) // appends the author to fragment
 }
 
-searchAuthor.appendChild(authorsFragment)
+searchAuthor.appendChild(authorsFragment) // appends it the HTML element
 
 
 
