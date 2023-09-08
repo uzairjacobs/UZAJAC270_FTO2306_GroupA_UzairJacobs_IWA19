@@ -194,7 +194,7 @@ searchForm.addEventListener("submit", (event) => {
     items.innerHTML = "";
   } else {
     listMessage.classList.remove("list__message_show");
-    items.innerHTML = "";
+   
 
     const fragment = document.createDocumentFragment();
 
