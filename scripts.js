@@ -214,6 +214,7 @@ searchForm.addEventListener("submit", (event) => {
 
     items.appendChild(fragment);
   }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
   searchOverlay.open = false;
   listButton.disabled = true;
   listButton.textContent = `Show more (0)`;
