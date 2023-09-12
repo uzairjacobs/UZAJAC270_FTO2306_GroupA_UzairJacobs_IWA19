@@ -124,7 +124,7 @@ listButton.innerHTML = /* html */ [
 
 //show more button click
 function displayBooks(startIndex, endIndex, books) {
-
+  
   const fragment = document.createDocumentFragment();
 
   for (let i = startIndex; i < endIndex && i < books.length; i++) {
@@ -166,6 +166,7 @@ listButton.addEventListener("click", () => {
 const searchForm = document.querySelector("[data-search-form]");
 searchForm.addEventListener("submit", (event) => {
   event.preventDefault();
+  items.innerHTML = "";
 
   // Get search filters from the form
   const formData = new FormData(searchForm);
@@ -215,9 +216,9 @@ searchForm.addEventListener("submit", (event) => {
     items.appendChild(fragment);
   }
   window.scrollTo({ top: 0, behavior: 'smooth' });
+  listButton.textContent = `Show more (0)`;
   searchOverlay.open = false;
   listButton.disabled = true;
-  listButton.textContent = `Show more (0)`;
 });
 
 // Event listener for clicking on book items
