@@ -106,9 +106,6 @@ for (const [id, name] of Object.entries(authors)) {
 const searchAuthor = document.querySelector("[data-search-authors]");
 searchAuthor.appendChild(authorsFragment); // appends it the HTML element
 
-// text content of show more button
-listButton.innerText = `Show more (${books.length - [page * BOOKS_PER_PAGE]})`;
-
 // Set the inner HTML of the listButton to display a "Show more" button
 // along with the remaining number of books to be displayed, if any.
 // The number of remaining books is calculated based on 'matches' array length
@@ -116,9 +113,9 @@ listButton.innerText = `Show more (${books.length - [page * BOOKS_PER_PAGE]})`;
 listButton.innerHTML = /* html */ [
   `<span>Show more</span>
     <span class="list__remaining"> (${
-      matches.length - [page * BOOKS_PER_PAGE] > 0
-        ? matches.length - [page * BOOKS_PER_PAGE]
-        : 0
+      matches.length - (page * BOOKS_PER_PAGE) > 0
+      ? matches.length - (page * BOOKS_PER_PAGE)
+      : 0
     })</span>`,
 ];
 
@@ -148,18 +145,20 @@ function displayBooks(startIndex, endIndex, books) {
 
 // Event listener for the "Show more" button
 listButton.addEventListener("click", () => {
+
+  //Increment the page number
+  page++;
+
   const startIndex = (page - 1) * BOOKS_PER_PAGE;
   const endIndex = page * BOOKS_PER_PAGE;
 
-  // Display the next set of books
-  displayBooks(startIndex, endIndex, matches);
-
-  // Increment the page number
-  page++;
-
+// Display the next set of books
+ displayBooks(startIndex, endIndex, matches);
+  
   const remaining = matches.length - endIndex;
   listButton.disabled = endIndex >= matches.length;
   listButton.textContent = `Show more (${remaining})`;
+  
 });
 
 // Event listener for the search form submission
@@ -216,7 +215,7 @@ searchForm.addEventListener("submit", (event) => {
     items.appendChild(fragment);
   }
   window.scrollTo({ top: 0, behavior: 'smooth' });
-  listButton.textContent = `Show more (0)`;
+  //listButton.textContent = `Show more (0)`;
   searchOverlay.open = false;
   listButton.disabled = true;
 });
